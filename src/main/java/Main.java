@@ -2,7 +2,6 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         ArrayList<String> courses = new ArrayList<String>();
-        ArrayList<schedule> schedules = new ArrayList<schedule>();
+        ArrayList<Schedule> schedules = new ArrayList<Schedule>();
         ArrayList<classPeriod> period1 = new ArrayList<classPeriod>();
         ArrayList<classPeriod> period2 = new ArrayList<classPeriod>();
         ArrayList<classPeriod> period3 = new ArrayList<classPeriod>();
@@ -50,19 +49,32 @@ public class Main {
 
                 switch(x.period) {
                     case 1: period1.add(x); break;
-                    case 2: period1.add(x); break;
-                    case 3: period1.add(x); break;
-                    case 4: period1.add(x); break;
-                    case 5: period1.add(x); break;
-                    case 6: period1.add(x); break;
-                    case 7: period1.add(x); break;
+                    case 2: period2.add(x); break;
+                    case 3: period3.add(x); break;
+                    case 4: period4.add(x); break;
+                    case 5: period5.add(x); break;
+                    case 6: period6.add(x); break;
+                    case 7: period7.add(x); break;
                 }
             }
         }
 
+        //creates all possible schedules
+        for(int p1 = 0; p1<period1.size(); p1++)
+            for(int p2 = 0; p2<period2.size(); p2++)
+                for(int p3 = 0; p3<period3.size(); p3++)
+                    for(int p4 = 0; p4<period4.size(); p4++)
+                        for(int p5 = 0; p5<period5.size(); p5++)
+                            for(int p6 = 0; p6<period6.size(); p6++)
+                                for(int p7 = 0; p7<period7.size(); p7++) {
+                                    Schedule schedule = new Schedule(period1.get(p1),period2.get(p2),period3.get(p3),period4.get(p4),period5.get(p5),period6.get(p6),period7.get(p7));
+                                    if(schedule.isCorrect())
+                                        schedules.add(schedule);
+                                }
 
+        for(int k = 0; k<schedules.size(); k++) {
+            System.out.println("Schedule " + k);
+            System.out.println(schedules.get(k));
+        }
     }
-
-
-
 }
