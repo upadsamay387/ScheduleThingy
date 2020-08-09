@@ -20,34 +20,6 @@ public class Schedule {
         this.period7 = period7;
     }
 
-    public classPeriod getPeriod1() {
-        return period1;
-    }
-
-    public classPeriod getPeriod2() {
-        return period2;
-    }
-
-    public classPeriod getPeriod3() {
-        return period3;
-    }
-
-    public classPeriod getPeriod4() {
-        return period4;
-    }
-
-    public classPeriod getPeriod5() {
-        return period5;
-    }
-
-    public classPeriod getPeriod6() {
-        return period6;
-    }
-
-    public classPeriod getPeriod7() {
-        return period7;
-    }
-
     public boolean isCorrect() {
         ArrayList<String> x = new ArrayList<String>();
         classPeriod[] prd = {period1,period2,period3,period4,period5,period6,period7};
@@ -58,6 +30,8 @@ public class Schedule {
                 return false;
             x.add(testCase);
         }
+
+
         return true;
     }
 

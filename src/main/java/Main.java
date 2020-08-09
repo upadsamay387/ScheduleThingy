@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Scanner;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void run() throws IOException {
 
         ArrayList<String> courses = new ArrayList<String>();
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
@@ -29,14 +27,10 @@ public class Main {
         File classList = new File("classList.xlsx");
         FileInputStream fis = new FileInputStream(classList);
 
+        courses = FXController.courses;
+
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         XSSFSheet sheet = workbook.getSheetAt(0);
-
-        Scanner input = new Scanner(System.in);
-
-        System.out.print("Input 7 class codes in a comma separated list (e.g. AB123, AB223)");
-        courses = new ArrayList<String>(Arrays.asList(input.nextLine().replace(" ","").split(",")));
-        //System.out.print(courses);
 
         Iterator<Row> rowIterator = sheet.iterator();
 
@@ -45,17 +39,39 @@ public class Main {
             Row row = rowIterator.next();
 
             if(courses.contains(row.getCell(0).toString())) {
-                classPeriod x = new classPeriod(row.getCell(0).toString(),row.getCell(1).toString(),(int) Double.parseDouble(row.getCell(4).toString()),row.getCell(8).toString(),row.getCell(10).toString(),(int) Double.parseDouble(row.getCell(11).toString()));
 
-                switch(x.period) {
-                    case 1: period1.add(x); break;
-                    case 2: period2.add(x); break;
-                    case 3: period3.add(x); break;
-                    case 4: period4.add(x); break;
-                    case 5: period5.add(x); break;
-                    case 6: period6.add(x); break;
-                    case 7: period7.add(x); break;
-                }
+                classPeriod x = new classPeriod(row.getCell(0).toString(),row.getCell(1).toString(),(int) Double.parseDouble(row.getCell(4).toString()),row.getCell(8).toString(),row.getCell(10).toString(),(int) Double.parseDouble(row.getCell(11).toString()));
+                int courseIndex = courses.indexOf(row.getCell(0).toString());
+                String teacherName = FXController.teacherNames[courseIndex];
+                int override = 0;
+                if(FXController.periodOverride[courseIndex])
+                    override = courseIndex + 1;
+
+                if(teacherName.equals("") || teacherName.equals(x.teacher))
+                if(override == 0 || x.period == override)
+                    switch (x.period) {
+                        case 1:
+                            period1.add(x);
+                            break;
+                        case 2:
+                            period2.add(x);
+                            break;
+                        case 3:
+                            period3.add(x);
+                            break;
+                        case 4:
+                            period4.add(x);
+                            break;
+                        case 5:
+                            period5.add(x);
+                            break;
+                        case 6:
+                            period6.add(x);
+                            break;
+                        case 7:
+                            period7.add(x);
+                            break;
+                    }
             }
         }
 
@@ -72,9 +88,43 @@ public class Main {
                                         schedules.add(schedule);
                                 }
 
-        for(int k = 0; k<schedules.size(); k++) {
-            System.out.println("Schedule " + k);
-            System.out.println(schedules.get(k));
+        if(schedules.size() == 0)
+            System.out.println("No valid schedules found");
+        else {
+            ArrayList<String> teacherList = new ArrayList<String>();
+            ArrayList<Integer> teacherNums = new ArrayList<Integer>();
+
+            for(int k = 0; k<schedules.size(); k++) {
+                System.out.println("Schedule " + (k+1));
+                System.out.println(schedules.get(k));
+
+                String[] teacherNames = {schedules.get(k).period1.teacher,schedules.get(k).period2.teacher,schedules.get(k).period3.teacher,schedules.get(k).period4.teacher,schedules.get(k).period5.teacher,schedules.get(k).period6.teacher,schedules.get(k).period7.teacher};
+
+                for(int j = 0; j<7; j++) {
+                    if (!teacherList.contains(teacherNames[j])) {
+                        teacherList.add(teacherNames[j]);
+                        teacherNums.add(1);
+                    } else {
+                        int z = teacherNums.get(teacherList.indexOf(teacherNames[j])) + 1;
+                        teacherNums.set(teacherList.indexOf(teacherNames[j]), z);
+                    }
+                }
+            }
+
+            System.out.println("Teacher chances: ");
+            for(int k = 0; k<teacherList.size(); k++) {
+                System.out.println(teacherList.get(k) + ": " + calculateChances(teacherNums.get(k),schedules.size()));
+            }
+
+
+
+
         }
+    }
+
+    public static String calculateChances(int numerator, int denominator) {
+        double result = 100.0*numerator;
+        result = result/denominator;
+        return "" + result + "%";
     }
 }

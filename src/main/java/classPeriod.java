@@ -16,30 +16,6 @@ public class classPeriod {
         this.period = period;
     }
 
-    public void setCourseDesc(String courseDesc) {
-        this.courseDesc = courseDesc;
-    }
-
-    public void setNumberEnrolled(int numberEnrolled) {
-        this.numberEnrolled = numberEnrolled;
-    }
-
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    public void setPeriod(int period) {
-        this.period = period;
-    }
-
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
-    }
-
     public String toString() {
         return courseID;
     }
