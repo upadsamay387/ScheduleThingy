@@ -45,7 +45,7 @@ public class Main {
             Row row = rowIterator.next();
 
             if(courses.contains(row.getCell(0).toString())) {
-                classPeriod x = new classPeriod(row.getCell(0).toString(),row.getCell(1).toString(),Integer.parseInt(row.getCell(4).toString()),row.getCell(8).toString(),row.getCell(10).toString(),Integer.parseInt(row.getCell(11).toString()));
+                classPeriod x = new classPeriod(row.getCell(0).toString(),row.getCell(1).toString(),(int) Double.parseDouble(row.getCell(4).toString()),row.getCell(8).toString(),row.getCell(10).toString(),(int) Double.parseDouble(row.getCell(11).toString()));
 
                 switch(x.period) {
                     case 1: period1.add(x); break;

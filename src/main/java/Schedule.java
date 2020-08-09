@@ -52,7 +52,7 @@ public class Schedule {
         ArrayList<String> x = new ArrayList<String>();
         classPeriod[] prd = {period1,period2,period3,period4,period5,period6,period7};
 
-        for(int k = 0; 0<prd.length; k++) {
+        for(int k = 0; k<prd.length; k++) {
             String testCase = prd[k].courseID;
             if(x.contains(testCase))
                 return false;
